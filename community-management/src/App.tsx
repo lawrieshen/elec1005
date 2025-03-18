@@ -1,35 +1,55 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import Home from "./pages/Home";
+import Register from "./pages/Register";
+import Events from "./pages/Events";
+import Login from "./pages/Login";
+import { getAuth, onAuthStateChanged, User } from "firebase/auth";
+import { Layout, Menu } from "antd";
+import NavBar from "./components/NavBar";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [user, setUser] = useState<User | null>(null);
+  const auth = getAuth();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+
+    return () => unsubscribe(); // Cleanup on unmount
+  }, [auth]);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <BrowserRouter>
+      <Layout
+        style={{
+          minHeight: "100vh",
+          width: "100vw",
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden", // Ensures no scrolling
+        }}
+      >
+        <NavBar />
+        <Layout.Content
+          style={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            // alignItems: "center",
+            // justifyContent: "center",
+            width: "100%",
+          }}
+        >
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/events" element={user ? <Events /> : <Navigate to="/login" replace />} />
+          </Routes>
+        </Layout.Content>
+      </Layout>
+    </BrowserRouter>
+  );
 }
-
-export default App
