@@ -22,9 +22,26 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Layout style={{ minHeight: "100vh", width: "100vw"}}>
+      <Layout
+        style={{
+          minHeight: "100vh",
+          width: "100vw",
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden", // Ensures no scrolling
+        }}
+      >
         <NavBar />
-        <Layout.Content style={{ flexGrow: 1 }}>
+        <Layout.Content
+          style={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+          }}
+        >
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Register />} />

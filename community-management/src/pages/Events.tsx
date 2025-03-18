@@ -46,37 +46,30 @@ export default function Events() {
   ];
 
   return (
-    <Layout style={{ minHeight: "100vh", width: "100vw", display: "flex", justifyContent: "center", alignItems: "center" }}>
-        {/* Full-width Header */}
-        <Header style={{ backgroundColor: "#001529", display: "flex", alignItems: "center", width: "100%" }}>
-            <Menu theme="dark" mode="horizontal" items={menuItems} style={{ flexGrow: 1, justifyContent: "center" }} />
-        </Header>
-
-        <Content style={{ width: "100%", maxWidth: 800, padding: "20px" }}>
-            <Card title="Community Events" style={{ width: "100%" }}>
-                {user && (
-                <Typography.Text strong style={{ display: "block", marginBottom: 10 }}>
-                    Welcome, {user.displayName || user.email}!
-                </Typography.Text>
-                )}
-                <Input placeholder="Add event..." value={event} onChange={(e) => setEvent(e.target.value)} />
-                <Button type="primary" onClick={handleAddEvent} style={{ marginTop: 10 }}>
-                Add Event
-                </Button>
-                <List
-                dataSource={events}
-                renderItem={(e) => <List.Item>{e}</List.Item>}
-                style={{ marginTop: 10 }}
-                />
-            </Card>
-
-            {/* Logout Button */}
+    <div>
+        <Card title="Community Events" style={{ width: "100%" }}>
             {user && (
-            <Button type="primary" danger onClick={handleLogout} style={{ marginTop: 20, width: "100%" }}>
-                Logout
-            </Button>
+            <Typography.Text strong style={{ display: "block", marginBottom: 10 }}>
+                Welcome, {user.displayName || user.email}!
+            </Typography.Text>
             )}
-        </Content>
-    </Layout>
+            <Input placeholder="Add event..." value={event} onChange={(e) => setEvent(e.target.value)} />
+            <Button type="primary" onClick={handleAddEvent} style={{ marginTop: 10 }}>
+            Add Event
+            </Button>
+            <List
+            dataSource={events}
+            renderItem={(e) => <List.Item>{e}</List.Item>}
+            style={{ marginTop: 10 }}
+            />
+        </Card>
+
+        {/* Logout Button */}
+        {user && (
+        <Button type="primary" danger onClick={handleLogout} style={{ marginTop: 20, width: "100%" }}>
+            Logout
+        </Button>
+        )}
+    </div>
   );
 }

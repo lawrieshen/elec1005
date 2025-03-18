@@ -36,14 +36,13 @@ export default function Register() {
 
   return (
     <div style={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: "#f0f2f5",
-      width: "100vw",
-      height: "100vh"
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#f0f2f5",
+        overflow: "hidden", // Prevents scrollbars
     }}>
-      <Card style={{ width: 400, padding: 20, borderRadius: 8, boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)" }}>
+      <Card style={{ width: 400, padding: 20, borderRadius: 8, boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)", textAlign: "center" }}>
         <Typography.Title level={2} style={{ textAlign: "center" }}>Register</Typography.Title>
 
         {/* Email & Password Registration Form */}
