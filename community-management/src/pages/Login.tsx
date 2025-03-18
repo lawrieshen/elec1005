@@ -35,7 +35,7 @@ export default function Login() {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#f0f2f5" }}>
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#f0f2f5", flex: 1}}>
       <Card style={{ width: 400, padding: 20, borderRadius: 8, boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)" }}>
         <Typography.Title level={2} style={{ textAlign: "center" }}>Login</Typography.Title>
         

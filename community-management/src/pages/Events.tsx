@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
-import { List, Input, Button, Card, Layout, Typography, Menu } from "antd";
+import { List, Input, Button, Typography } from "antd";
 import { getAuth, onAuthStateChanged, signOut, User } from "firebase/auth";
-import { Link, useNavigate } from "react-router-dom";
-import { Header } from "antd/es/layout/layout";
-
-const { Content } = Layout;
+import { useNavigate } from "react-router-dom";
 
 export default function Events() {
     const [event, setEvent] = useState<string>("");
@@ -15,61 +12,65 @@ export default function Events() {
 
     const handleAddEvent = () => {
         if (event.trim()) {
-        setEvents([...events, event]);
-        setEvent("");
+            setEvents([...events, event]);
+            setEvent("");
         }
     };
 
     const handleLogout = async () => {
         try {
-        await signOut(auth);
-        navigate("/login"); // Redirect to login after logging out
+            await signOut(auth);
+            navigate("/login");
         } catch (error) {
-        console.error("Logout failed", error);
+            console.error("Logout failed", error);
         }
     };
 
-    // Track Authentication State
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-          setUser(user);
+            setUser(user);
         });
-    
-        return () => unsubscribe(); // Cleanup listener
-      }, []);
+        return () => unsubscribe();
+    }, []);
 
-  const menuItems = [
-    { key: "home", label: <Link to="/">Home</Link> },
-    { key: "register", label: <Link to="/register">Register</Link> },
-    { key: "login", label: <Link to="/login">Login</Link> },
-    { key: "events", label: <Link to="/events">Events</Link> },
-  ];
+    return (
+        <div style={{ padding: "40px 20px", maxWidth: "1200px", margin: "0 auto", width: "100%" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+                <Typography.Title level={3} style={{ margin: 0 }}>Community Events</Typography.Title>
+                {user && (
+                    <Button type="primary" danger onClick={handleLogout}>
+                        Logout
+                    </Button>
+                )}
+            </div>
 
-  return (
-    <div>
-        <Card title="Community Events" style={{ width: "100%" }}>
             {user && (
-            <Typography.Text strong style={{ display: "block", marginBottom: 10 }}>
-                Welcome, {user.displayName || user.email}!
-            </Typography.Text>
+                <Typography.Text strong style={{ display: "block", marginBottom: 20 }}>
+                    Welcome, {user.displayName || user.email}!
+                </Typography.Text>
             )}
-            <Input placeholder="Add event..." value={event} onChange={(e) => setEvent(e.target.value)} />
-            <Button type="primary" onClick={handleAddEvent} style={{ marginTop: 10 }}>
-            Add Event
-            </Button>
+            
+            <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
+                <Input 
+                    placeholder="Add a new event..." 
+                    value={event} 
+                    onChange={(e) => setEvent(e.target.value)} 
+                    style={{ flex: 1 }}
+                />
+                <Button type="primary" onClick={handleAddEvent}>
+                    Add Event
+                </Button>
+            </div>
+            
             <List
-            dataSource={events}
-            renderItem={(e) => <List.Item>{e}</List.Item>}
-            style={{ marginTop: 10 }}
+                dataSource={events}
+                renderItem={(e) => (
+                    <List.Item style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
+                        {e}
+                    </List.Item>
+                )}
+                style={{ background: "white", padding: 20, borderRadius: 8 }}
             />
-        </Card>
-
-        {/* Logout Button */}
-        {user && (
-        <Button type="primary" danger onClick={handleLogout} style={{ marginTop: 20, width: "100%" }}>
-            Logout
-        </Button>
-        )}
-    </div>
-  );
+        </div>
+    );
 }
