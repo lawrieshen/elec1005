@@ -5,8 +5,9 @@ import Register from "./pages/Register";
 import Events from "./pages/Events";
 import Login from "./pages/Login";
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
-import { Layout, Menu } from "antd";
-import NavBar from "./components/NavBar";
+import { Layout } from "antd";
+import NavBar from "./components/Navbar";
+
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
